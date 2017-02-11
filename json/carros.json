@@ -1,0 +1,15 @@
+[{
+  "lat": -27.2223943,
+  "lng": -50.9758246,
+  "message": "Monte Carlo",
+  "focus": "true",
+  "draggable": "false",
+  "title": "Monte Carlo"
+}, {
+  "lat": -7.357,
+  "lng": -53.613,
+  "message": "Fraiburgo",
+  "focus": "true",
+  "draggable": "false",
+  "title": "Fraiburgo"
+}]
