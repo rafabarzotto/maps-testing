@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-.controller('MapCtrl', function($scope, $http, $location) {
+.controller('MapCtrl', function($scope, $http, $location, $geolocation) {
 
     //Define Icones
     var local_icons = {
@@ -44,9 +44,15 @@ angular.module('app.controllers', [])
     // });
 
     //Aproximar - tem que passar a lat e lng como parametro no funcao do ng-click
-    $scope.changeLocation = function(centerHash) {
-        $location.search({
-            c: centerHash
+    $scope.changeLocation = function() {
+        $geolocation.getCurrentPosition({
+            timeout: 60000
+        }).then(function(position) {
+            console.log(position.coords.latitude + ":" + position.coords.longitude + ":" + 13);
+            $location.search({
+                c: position.coords.latitude + ":" + position.coords.longitude + ":" + 13
+            });
+            $scope.myPosition = position;
         });
     };
 

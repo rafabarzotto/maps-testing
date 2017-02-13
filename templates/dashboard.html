@@ -13,7 +13,7 @@
             <input type="number" class="form-control" step="any" ng-model="center.zoom">
         </div>
         <button class="button" ng-click="carregarCarros()">Carregar Carros</button>
-        <!-- <button class="button" ng-click="changeLocation('36.8899:-121.8008:12')">Carregar Carros</button> -->
+        <button class="button" ng-click="changeLocation()">Pegar Posicao</button>
     </form>
     </br>
     <leaflet lf-center="center" height="480px" width="100%" markers="markers" controls="controls" url-hash-center="yes"></leaflet>
