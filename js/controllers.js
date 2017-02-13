@@ -1,6 +1,6 @@
 angular.module('app.controllers', [])
 
-.controller('MapCtrl', function($scope, $http, $location, $geolocation) {
+.controller('MapCtrl', function($scope, $http, $location, $geolocation, $compile, leafletData) {
 
     //Define Icones
     var local_icons = {
@@ -31,7 +31,12 @@ angular.module('app.controllers', [])
                 position: 'topleft'
             }
         },
-        icons: local_icons
+        events: {
+            map: {
+                enable: ['zoomstart', 'drag', 'click', 'mousemove', 'popupopen'],
+                logic: 'emit'
+            }
+        }
     });
 
     $scope.markers = new Array();
@@ -61,11 +66,58 @@ angular.module('app.controllers', [])
         $http.get('json/carros.json')
             .then(function(response) {
                 angular.forEach(response.data, function(value, key) {
-                    $scope.markers.push(value.title, value);
+                    console.log(value);
+                    $scope.markers.push({
+                        title: value.geo.title,
+                        lat: value.geo.coords[0],
+                        lng: value.geo.coords[1],
+                        message: value.properties.popup,
+                        icon: local_icons.default_icon
+                    });
                 });
             }, function(error) {
                 console.log("erro");
             });
     }
+
+    // $scope.$on('leafletDirectiveMap.popupopen', function(event) {
+    //     console.log(event);
+    // });
+
+    var showPopup = function(marker_id) {
+        var marker = $scope.markers[marker_id];
+        console.log(marker);
+
+        var _templateScope;
+        if (!_templateScope) { //only if your using one window for all markers
+            _templateScope = $scope.$new();
+        }
+
+        _templateScope.model = {
+            nome: "rafael",
+            placa: "DDD-111"
+        };
+
+        console.log(_templateScope);
+
+        var content = "<div ng-include=\"'templates/pop.html'\"></div>";
+        var compiled = $compile(content)(_templateScope);
+
+        // plae the popup template on the map
+        var latLng = [marker.lat, marker.lng];
+        var popup = L.popup({
+            className: 'custom-popup'
+        }).setContent(compiled[0]).setLatLng(latLng);
+
+        // // open the template
+        leafletData.getMap().then(function(map) {
+            popup.openOn(map);
+        });
+
+    };
+
+    $scope.$on('leafletDirectiveMarker.click', function(e, args) {
+        showPopup(args.modelName);
+    });
 
 });
