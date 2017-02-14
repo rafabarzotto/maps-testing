@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('app', ['ui.router',
-	'leaflet-directive',
+	'app.directives',
+	'app.services',
 	'app.controllers',
 	'ngGeolocation'
 
