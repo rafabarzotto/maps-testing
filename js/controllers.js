@@ -116,6 +116,8 @@ angular.module('app.controllers', [])
 
     };
 
+
+
     $scope.$on('leafletDirectiveMarker.click', function(e, args) {
         showPopup(args.modelName);
     });
