@@ -71,7 +71,7 @@ angular.module('app.controllers', [])
                         title: value.geo.title,
                         lat: value.geo.coords[0],
                         lng: value.geo.coords[1],
-                        message: value.properties.popup,
+                        placa: value.properties.placa,
                         icon: local_icons.default_icon
                     });
                 });
@@ -94,13 +94,9 @@ angular.module('app.controllers', [])
         }
 
         _templateScope.model = {
-            nome: "rafael",
-            placa: "DDD-111"
         };
 
-        console.log(_templateScope);
-
-        var content = "<div ng-include=\"'templates/pop.html'\"></div>";
+        var content = "<popup id=\'"+ marker.placa + "\'></popup>";
         var compiled = $compile(content)(_templateScope);
 
         // plae the popup template on the map
